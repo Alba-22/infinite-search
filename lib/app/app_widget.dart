@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:infinite_search/app/pages/listing_page.dart';
 
 class AppWidget extends StatelessWidget {
   const AppWidget({super.key});
@@ -11,6 +12,7 @@ class AppWidget extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
+      home: const ListingPage(),
     );
   }
 }
