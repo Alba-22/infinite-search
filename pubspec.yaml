@@ -1,6 +1,5 @@
 name: infinite_search
-description: "A simple Proof of Concept of a listing feature with infinite
-  scrolling, filtering and search"
+description: "A simple Proof of Concept of a listing feature with infinite scrolling, filtering and search"
 
 publish_to: "none"
 
@@ -15,6 +14,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_mobx: ^2.2.1+1
+  google_fonts: ^6.2.1
   mobx: ^2.3.3+2
   uuid: ^4.4.0
 

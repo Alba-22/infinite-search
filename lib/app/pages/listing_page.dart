@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:infinite_search/app/controllers/listing_controller.dart';
-import 'package:infinite_search/app/models/item_model.dart';
+import 'package:infinite_search/app/models/post_model.dart';
 import 'package:infinite_search/app/repositories/list_repository.dart';
+import 'package:infinite_search/app/utils/constants.dart';
 import 'package:infinite_search/app/utils/debouncer.dart';
+import 'package:infinite_search/app/widgets/custom_tab_bar.dart';
+import 'package:infinite_search/app/widgets/custom_text_field.dart';
+import 'package:infinite_search/app/widgets/filter_button.dart';
+import 'package:infinite_search/app/widgets/filter_tags_bottom_sheet.dart';
+import 'package:infinite_search/app/widgets/post_card.dart';
+
+import '../widgets/more_loading_widget.dart';
 
 class ListingPage extends StatefulWidget {
   const ListingPage({super.key});
@@ -13,12 +21,13 @@ class ListingPage extends StatefulWidget {
 }
 
 class _ListingPageState extends State<ListingPage> with SingleTickerProviderStateMixin {
-  // TODO: Mover pro controller
+  // TODO: Move to controller
   final scrollController = ScrollController();
 
   final controller = ListingController(ListRepositoryImpl());
 
   late TabController tabController;
+  final searchController = TextEditingController();
 
   final debouncer = Debouncer(duration: const Duration(milliseconds: 500));
 
@@ -41,45 +50,57 @@ class _ListingPageState extends State<ListingPage> with SingleTickerProviderStat
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Listing"),
+        backgroundColor: Colors.black87,
+        title: const Text(
+          "Publicações",
+          style: TextStyle(
+            fontSize: 20,
+            color: Colors.white,
+          ),
+        ),
       ),
       body: Column(
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: TextFormField(
-                  onChanged: (value) {
-                    debouncer.run(() {
-                      controller.setSearchQuery(value);
-                    });
-                  },
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
+          const SizedBox(height: Layout.gapLarge),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: Layout.gapBig),
+            child: Row(
+              children: [
+                Expanded(
+                  child: CustomTextField(
+                    controller: searchController,
+                    onChanged: (value) {
+                      debouncer.run(() {
+                        controller.setSearchQuery(value);
+                      });
+                    },
                   ),
                 ),
-              ),
-              const SizedBox(width: 8),
-              Container(
-                height: 32,
-                width: 32,
-                color: Colors.red,
-              ),
-            ],
+                const SizedBox(width: Layout.gapSmall),
+                FilterButton(
+                  onTap: () {
+                    showFilterTagsBottomSheet(
+                      context,
+                      initiallySelected: [],
+                      onSelectTags: (tags) {
+                        Navigator.pop(context);
+                      },
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
-          const SizedBox(height: 16),
-          TabBar(
+          const SizedBox(height: Layout.gapBig),
+          CustomTabBar(
             controller: tabController,
-            tabs: const [
-              Text("Relevantes"),
-              Text("Recentes"),
-            ],
             onTap: (value) {
               if (value == 0) {
                 controller.switchStatus(StatusEnum.relevant);
               } else if (value == 1) {
                 controller.switchStatus(StatusEnum.recent);
               }
+              searchController.clear();
             },
           ),
           Expanded(
@@ -95,26 +116,24 @@ class _ListingPageState extends State<ListingPage> with SingleTickerProviderStat
                 return ListView.separated(
                   controller: scrollController,
                   itemCount: items.length,
+                  padding: EdgeInsets.only(
+                    top: Layout.gapBig,
+                    left: Layout.gapBig,
+                    right: Layout.gapBig,
+                    bottom: MediaQuery.of(context).padding.bottom + Layout.gapBig,
+                  ),
                   itemBuilder: (context, index) {
                     final item = items[index];
                     return Observer(builder: (context) {
                       return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            height: 150,
-                            color: Colors.amber.withOpacity(0.2),
-                            child: Center(
-                              child: Text(
-                                item.title,
-                                style: const TextStyle(
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
+                          PostCard(post: item),
                           if (index == items.length - 1 && controller.isInInfiniteLoading) ...[
-                            const Center(child: CircularProgressIndicator())
+                            Container(
+                              padding: const EdgeInsets.symmetric(vertical: Layout.gapMedium),
+                              child: const MoreLoadingWidget(),
+                            )
                           ],
                           if (index == items.length - 1 && controller.hasReachedEnd) ...[
                             const Center(child: Text("Chegou ao fim"))
@@ -124,7 +143,7 @@ class _ListingPageState extends State<ListingPage> with SingleTickerProviderStat
                     });
                   },
                   separatorBuilder: (context, index) {
-                    return const SizedBox(height: 12);
+                    return const SizedBox(height: Layout.gapMedium);
                   },
                 );
               }

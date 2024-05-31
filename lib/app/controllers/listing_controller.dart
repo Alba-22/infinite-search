@@ -2,7 +2,7 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:infinite_search/app/models/item_model.dart';
+import 'package:infinite_search/app/models/post_model.dart';
 import 'package:infinite_search/app/models/query_model.dart';
 import 'package:infinite_search/app/repositories/list_repository.dart';
 import 'package:mobx/mobx.dart';
@@ -34,13 +34,19 @@ abstract class ListingControllerBase with Store {
   bool _isLoading = false;
 
   @readonly
-  ObservableList<ItemModel> _items = ObservableList.of([]);
+  ObservableList<PostModel> _items = ObservableList.of([]);
 
   @readonly
   String? _error;
 
   @computed
-  bool get isEmpty => _searchQuery.page == 1 && _items.isEmpty && _error == null && !_isLoading;
+  bool get isEmpty =>
+      _searchQuery.page == 1 &&
+      _items.isEmpty &&
+      _error == null &&
+      !_isLoading &&
+      // TODO: consider the entire filter, not just the text
+      _searchQuery.searchQuery.isEmpty;
 
   @computed
   bool get isInitialLoading => _searchQuery.page == 1 && _isLoading;
@@ -73,6 +79,7 @@ abstract class ListingControllerBase with Store {
   void switchStatus(StatusEnum status) {
     _searchQuery = _searchQuery.copyWith(
       status: status,
+      searchQuery: "",
     );
     reset();
     getItems();
