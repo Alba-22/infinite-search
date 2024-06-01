@@ -43,7 +43,7 @@ class _FilterTagsBottomSheetState extends State<FilterTagsBottomSheet> {
   @override
   void initState() {
     super.initState();
-    selectedTags = widget.initiallySelected;
+    selectedTags = [...widget.initiallySelected];
   }
 
   @override

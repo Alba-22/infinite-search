@@ -22,12 +22,13 @@ abstract class ListingControllerBase with Store {
 
   static const int _pageSize = 10;
 
-  @observable
+  @readonly
   QueryModel _searchQuery = const QueryModel(
     page: 1,
     pageSize: _pageSize,
     searchQuery: "",
     status: StatusEnum.relevant,
+    tags: [],
   );
 
   @readonly
@@ -41,12 +42,7 @@ abstract class ListingControllerBase with Store {
 
   @computed
   bool get isEmpty =>
-      _searchQuery.page == 1 &&
-      _items.isEmpty &&
-      _error == null &&
-      !_isLoading &&
-      // TODO: consider the entire filter, not just the text
-      _searchQuery.searchQuery.isEmpty;
+      _searchQuery.page == 1 && _items.isEmpty && _error == null && !_isLoading && isFilterEmpty;
 
   @computed
   bool get isInitialLoading => _searchQuery.page == 1 && _isLoading;
@@ -55,7 +51,7 @@ abstract class ListingControllerBase with Store {
   bool get isInInfiniteLoading => _searchQuery.page != 1 && _isLoading;
 
   @computed
-  bool get isFilterEmpty => _searchQuery.searchQuery.isEmpty;
+  bool get isFilterEmpty => _searchQuery.searchQuery.isEmpty && _searchQuery.tags.isEmpty;
 
   @computed
   bool get noResultsFound => !isFilterEmpty && _items.isEmpty;
@@ -70,6 +66,17 @@ abstract class ListingControllerBase with Store {
   void setSearchQuery(String text) {
     _searchQuery = _searchQuery.copyWith(
       searchQuery: text,
+      tags: _searchQuery.tags,
+    );
+    reset();
+    getItems();
+  }
+
+  @action
+  void setTags(List<Tag> tags) {
+    _searchQuery = _searchQuery.copyWith(
+      searchQuery: _searchQuery.searchQuery,
+      tags: tags,
     );
     reset();
     getItems();

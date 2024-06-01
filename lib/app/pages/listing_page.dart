@@ -86,8 +86,9 @@ class _ListingPageState extends State<ListingPage> with SingleTickerProviderStat
                   onTap: () {
                     showFilterTagsBottomSheet(
                       context,
-                      initiallySelected: [],
+                      initiallySelected: controller.searchQuery.tags,
                       onSelectTags: (tags) {
+                        controller.setTags(tags);
                         Navigator.pop(context);
                       },
                     );

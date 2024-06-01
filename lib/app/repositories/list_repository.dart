@@ -23,6 +23,13 @@ class ListRepositoryImpl implements ListRepository {
           .toList();
     }
     search = search.where((element) => element.status == query.status).toList();
+
+    if (query.tags.isNotEmpty) {
+      search = search.where((element) {
+        return query.tags.any((tag) => element.tags.contains(tag));
+      }).toList();
+    }
+
     search = search.skip(firstItemIndex).take(query.pageSize).toList();
     return search;
   }

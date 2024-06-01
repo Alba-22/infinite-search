@@ -12,42 +12,44 @@ mixin _$ListingController on ListingControllerBase, Store {
   Computed<bool>? _$isEmptyComputed;
 
   @override
-  bool get isEmpty => (_$isEmptyComputed ??=
-          Computed<bool>(() => super.isEmpty, name: 'ListingControllerBase.isEmpty'))
+  bool get isEmpty => (_$isEmptyComputed ??= Computed<bool>(() => super.isEmpty,
+          name: 'ListingControllerBase.isEmpty'))
       .value;
   Computed<bool>? _$isInitialLoadingComputed;
 
   @override
-  bool get isInitialLoading =>
-      (_$isInitialLoadingComputed ??= Computed<bool>(() => super.isInitialLoading,
-              name: 'ListingControllerBase.isInitialLoading'))
-          .value;
+  bool get isInitialLoading => (_$isInitialLoadingComputed ??= Computed<bool>(
+          () => super.isInitialLoading,
+          name: 'ListingControllerBase.isInitialLoading'))
+      .value;
   Computed<bool>? _$isInInfiniteLoadingComputed;
 
   @override
-  bool get isInInfiniteLoading =>
-      (_$isInInfiniteLoadingComputed ??= Computed<bool>(() => super.isInInfiniteLoading,
+  bool get isInInfiniteLoading => (_$isInInfiniteLoadingComputed ??=
+          Computed<bool>(() => super.isInInfiniteLoading,
               name: 'ListingControllerBase.isInInfiniteLoading'))
-          .value;
+      .value;
   Computed<bool>? _$isFilterEmptyComputed;
 
   @override
-  bool get isFilterEmpty => (_$isFilterEmptyComputed ??=
-          Computed<bool>(() => super.isFilterEmpty, name: 'ListingControllerBase.isFilterEmpty'))
-      .value;
+  bool get isFilterEmpty =>
+      (_$isFilterEmptyComputed ??= Computed<bool>(() => super.isFilterEmpty,
+              name: 'ListingControllerBase.isFilterEmpty'))
+          .value;
   Computed<bool>? _$noResultsFoundComputed;
 
   @override
-  bool get noResultsFound => (_$noResultsFoundComputed ??=
-          Computed<bool>(() => super.noResultsFound, name: 'ListingControllerBase.noResultsFound'))
-      .value;
+  bool get noResultsFound =>
+      (_$noResultsFoundComputed ??= Computed<bool>(() => super.noResultsFound,
+              name: 'ListingControllerBase.noResultsFound'))
+          .value;
   Computed<bool>? _$showScreamingErrorComputed;
 
   @override
-  bool get showScreamingError =>
-      (_$showScreamingErrorComputed ??= Computed<bool>(() => super.showScreamingError,
+  bool get showScreamingError => (_$showScreamingErrorComputed ??=
+          Computed<bool>(() => super.showScreamingError,
               name: 'ListingControllerBase.showScreamingError'))
-          .value;
+      .value;
   Computed<bool>? _$showSilentErrorComputed;
 
   @override
@@ -59,11 +61,13 @@ mixin _$ListingController on ListingControllerBase, Store {
   late final _$_searchQueryAtom =
       Atom(name: 'ListingControllerBase._searchQuery', context: context);
 
-  @override
-  QueryModel get _searchQuery {
+  QueryModel get searchQuery {
     _$_searchQueryAtom.reportRead();
     return super._searchQuery;
   }
+
+  @override
+  QueryModel get _searchQuery => searchQuery;
 
   @override
   set _searchQuery(QueryModel value) {
@@ -72,7 +76,8 @@ mixin _$ListingController on ListingControllerBase, Store {
     });
   }
 
-  late final _$_isLoadingAtom = Atom(name: 'ListingControllerBase._isLoading', context: context);
+  late final _$_isLoadingAtom =
+      Atom(name: 'ListingControllerBase._isLoading', context: context);
 
   bool get isLoading {
     _$_isLoadingAtom.reportRead();
@@ -89,7 +94,8 @@ mixin _$ListingController on ListingControllerBase, Store {
     });
   }
 
-  late final _$_itemsAtom = Atom(name: 'ListingControllerBase._items', context: context);
+  late final _$_itemsAtom =
+      Atom(name: 'ListingControllerBase._items', context: context);
 
   ObservableList<PostModel> get items {
     _$_itemsAtom.reportRead();
@@ -106,7 +112,8 @@ mixin _$ListingController on ListingControllerBase, Store {
     });
   }
 
-  late final _$_errorAtom = Atom(name: 'ListingControllerBase._error', context: context);
+  late final _$_errorAtom =
+      Atom(name: 'ListingControllerBase._error', context: context);
 
   String? get error {
     _$_errorAtom.reportRead();
@@ -172,6 +179,17 @@ mixin _$ListingController on ListingControllerBase, Store {
   }
 
   @override
+  void setTags(List<Tag> tags) {
+    final _$actionInfo = _$ListingControllerBaseActionController.startAction(
+        name: 'ListingControllerBase.setTags');
+    try {
+      return super.setTags(tags);
+    } finally {
+      _$ListingControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void switchStatus(StatusEnum status) {
     final _$actionInfo = _$ListingControllerBaseActionController.startAction(
         name: 'ListingControllerBase.switchStatus');
@@ -184,8 +202,8 @@ mixin _$ListingController on ListingControllerBase, Store {
 
   @override
   void reset() {
-    final _$actionInfo =
-        _$ListingControllerBaseActionController.startAction(name: 'ListingControllerBase.reset');
+    final _$actionInfo = _$ListingControllerBaseActionController.startAction(
+        name: 'ListingControllerBase.reset');
     try {
       return super.reset();
     } finally {
