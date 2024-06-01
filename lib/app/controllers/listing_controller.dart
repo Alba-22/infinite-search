@@ -87,6 +87,7 @@ abstract class ListingControllerBase with Store {
     _searchQuery = _searchQuery.copyWith(
       status: status,
       searchQuery: "",
+      tags: [],
     );
     reset();
     getItems();

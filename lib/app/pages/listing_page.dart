@@ -82,18 +82,20 @@ class _ListingPageState extends State<ListingPage> with SingleTickerProviderStat
                   ),
                 ),
                 const SizedBox(width: Layout.gapSmall),
-                FilterButton(
-                  onTap: () {
-                    showFilterTagsBottomSheet(
-                      context,
-                      initiallySelected: controller.searchQuery.tags,
-                      onSelectTags: (tags) {
-                        controller.setTags(tags);
-                        Navigator.pop(context);
-                      },
-                    );
-                  },
-                ),
+                Observer(builder: (context) {
+                  return FilterButton(
+                    onTap: () {
+                      showFilterTagsBottomSheet(
+                        context,
+                        initiallySelected: controller.searchQuery.tags,
+                        onSelectTags: (tags) {
+                          controller.setTags(tags);
+                          Navigator.pop(context);
+                        },
+                      );
+                    },
+                  );
+                }),
               ],
             ),
           ),
