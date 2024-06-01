@@ -7,6 +7,7 @@ import 'package:infinite_search/app/utils/constants.dart';
 import 'package:infinite_search/app/utils/debouncer.dart';
 import 'package:infinite_search/app/widgets/custom_tab_bar.dart';
 import 'package:infinite_search/app/widgets/custom_text_field.dart';
+import 'package:infinite_search/app/widgets/end_of_page_widget.dart';
 import 'package:infinite_search/app/widgets/filter_button.dart';
 import 'package:infinite_search/app/widgets/filter_tags_bottom_sheet.dart';
 import 'package:infinite_search/app/widgets/post_card.dart';
@@ -45,6 +46,10 @@ class _ListingPageState extends State<ListingPage> with SingleTickerProviderStat
       controller.getNextPage();
     }
   }
+
+  // TODO: check when first page is smaller than page size,
+  // or if the new loaded page is smaller than page size,
+  // so its not needed to get the next page
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +141,10 @@ class _ListingPageState extends State<ListingPage> with SingleTickerProviderStat
                             )
                           ],
                           if (index == items.length - 1 && controller.hasReachedEnd) ...[
-                            const Center(child: Text("Chegou ao fim"))
+                            Container(
+                              padding: const EdgeInsets.symmetric(vertical: Layout.gapMedium),
+                              child: const EndOfPageWidget(),
+                            ),
                           ]
                         ],
                       );
