@@ -9,7 +9,7 @@ List<PostModel> posts = [
     photoUrl:
         'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Rubiks_cube_by_keqs.jpg/1200px-Rubiks_cube_by_keqs.jpg',
     date: DateTime(2024, 5, 30),
-    status: StatusEnum.recent,
+    status: StatusEnum.relevant,
     tags: const [Tag.frontend, Tag.backend],
   ),
   PostModel(

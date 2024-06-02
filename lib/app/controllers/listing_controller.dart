@@ -130,12 +130,15 @@ abstract class ListingControllerBase with Store {
     _subscription = _repository.getItems(_searchQuery).asStream().listen((data) {
       if (data.isEmpty) {
         _hasReachedEnd = true;
-        _isLoading = false;
       } else {
         _items.addAll(data);
-        _isLoading = false;
-        _increasePage();
+        if (data.length < _searchQuery.pageSize) {
+          _hasReachedEnd = true;
+        } else {
+          _increasePage();
+        }
       }
+      _isLoading = false;
     })
       ..onError((e, s) {
         log(e.toString(), stackTrace: s);

@@ -61,10 +61,6 @@ class _ListingPageState extends State<ListingPage> with SingleTickerProviderStat
     }
   }
 
-  // TODO: check when first page is smaller than page size,
-  // or if the new loaded page is smaller than page size,
-  // so its not needed to get the next page
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

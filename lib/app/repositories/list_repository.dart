@@ -32,6 +32,7 @@ class ListRepositoryImpl implements ListRepository {
     }
 
     search = search.skip(firstItemIndex).take(query.pageSize).toList();
+    log("Got ${search.length} items");
     return search;
   }
 }

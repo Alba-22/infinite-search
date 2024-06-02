@@ -58,8 +58,10 @@ class PostCard extends StatelessWidget {
                   children: [
                     Text(
                       post.title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
-                        fontSize: 24,
+                        fontSize: 20,
                         color: CColors.textColor,
                         fontWeight: FontWeight.bold,
                       ),
@@ -67,7 +69,7 @@ class PostCard extends StatelessWidget {
                     Expanded(
                       child: Text(
                         post.description,
-                        maxLines: 3,
+                        maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                           fontSize: 14,
