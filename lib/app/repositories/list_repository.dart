@@ -12,6 +12,7 @@ class ListRepositoryImpl implements ListRepository {
   @override
   Future<List<PostModel>> getItems(QueryModel query) async {
     log("Getting items");
+    // throw Exception();
     await Future.delayed(const Duration(seconds: 2));
     final firstItemIndex = (query.pageSize * query.page) - query.pageSize;
     List<PostModel> search = posts;

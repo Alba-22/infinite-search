@@ -42,13 +42,16 @@ abstract class ListingControllerBase with Store {
 
   @computed
   bool get isEmpty =>
-      _searchQuery.page == 1 && _items.isEmpty && _error == null && !_isLoading && isFilterEmpty;
+      _isInFirstPage && _items.isEmpty && _error == null && !_isLoading && isFilterEmpty;
 
   @computed
-  bool get isInitialLoading => _searchQuery.page == 1 && _isLoading;
+  bool get isInitialLoading => _isInFirstPage && _isLoading;
 
   @computed
-  bool get isInInfiniteLoading => _searchQuery.page != 1 && _isLoading;
+  bool get _isInFirstPage => _searchQuery.page == 1;
+
+  @computed
+  bool get isInInfiniteLoading => !_isInFirstPage && _isLoading;
 
   @computed
   bool get isFilterEmpty => _searchQuery.searchQuery.isEmpty && _searchQuery.tags.isEmpty;
@@ -57,10 +60,10 @@ abstract class ListingControllerBase with Store {
   bool get noResultsFound => !isFilterEmpty && _items.isEmpty;
 
   @computed
-  bool get showScreamingError => _items.isEmpty && _error != null;
+  bool get showScreamingError => _isInFirstPage && _error != null;
 
   @computed
-  bool get showSilentError => _items.isNotEmpty && _error != null;
+  bool get showSilentError => !_isInFirstPage && _error != null;
 
   @action
   void setSearchQuery(String text) {
@@ -105,7 +108,7 @@ abstract class ListingControllerBase with Store {
   }
 
   @action
-  void increasePage() {
+  void _increasePage() {
     _searchQuery = _searchQuery.copyWith(
       page: _searchQuery.page + 1,
     );
@@ -115,15 +118,6 @@ abstract class ListingControllerBase with Store {
   bool _hasReachedEnd = false;
 
   StreamSubscription<void>? _subscription;
-
-  @action
-  Future<void> getNextPage() async {
-    if (_isLoading || _hasReachedEnd) {
-      return;
-    }
-    increasePage();
-    await getItems();
-  }
 
   @action
   Future<void> getItems() async {
@@ -140,15 +134,13 @@ abstract class ListingControllerBase with Store {
       } else {
         _items.addAll(data);
         _isLoading = false;
+        _increasePage();
       }
     })
       ..onError((e, s) {
         log(e.toString(), stackTrace: s);
         _error = "There was an error";
         _isLoading = false;
-        _searchQuery = _searchQuery.copyWith(
-          page: _pageSize - 1,
-        );
       });
   }
 }

@@ -22,6 +22,13 @@ mixin _$ListingController on ListingControllerBase, Store {
           () => super.isInitialLoading,
           name: 'ListingControllerBase.isInitialLoading'))
       .value;
+  Computed<bool>? _$_isInFirstPageComputed;
+
+  @override
+  bool get _isInFirstPage =>
+      (_$_isInFirstPageComputed ??= Computed<bool>(() => super._isInFirstPage,
+              name: 'ListingControllerBase._isInFirstPage'))
+          .value;
   Computed<bool>? _$isInInfiniteLoadingComputed;
 
   @override
@@ -148,14 +155,6 @@ mixin _$ListingController on ListingControllerBase, Store {
     });
   }
 
-  late final _$getNextPageAsyncAction =
-      AsyncAction('ListingControllerBase.getNextPage', context: context);
-
-  @override
-  Future<void> getNextPage() {
-    return _$getNextPageAsyncAction.run(() => super.getNextPage());
-  }
-
   late final _$getItemsAsyncAction =
       AsyncAction('ListingControllerBase.getItems', context: context);
 
@@ -212,11 +211,11 @@ mixin _$ListingController on ListingControllerBase, Store {
   }
 
   @override
-  void increasePage() {
+  void _increasePage() {
     final _$actionInfo = _$ListingControllerBaseActionController.startAction(
-        name: 'ListingControllerBase.increasePage');
+        name: 'ListingControllerBase._increasePage');
     try {
-      return super.increasePage();
+      return super._increasePage();
     } finally {
       _$ListingControllerBaseActionController.endAction(_$actionInfo);
     }

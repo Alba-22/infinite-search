@@ -11,6 +11,7 @@ import 'package:infinite_search/app/widgets/end_of_page_widget.dart';
 import 'package:infinite_search/app/widgets/filter_button.dart';
 import 'package:infinite_search/app/widgets/filter_tags_bottom_sheet.dart';
 import 'package:infinite_search/app/widgets/post_card.dart';
+import 'package:mobx/mobx.dart';
 
 import '../widgets/more_loading_widget.dart';
 
@@ -32,18 +33,31 @@ class _ListingPageState extends State<ListingPage> with SingleTickerProviderStat
 
   final debouncer = Debouncer(duration: const Duration(milliseconds: 500));
 
+  late ReactionDisposer react;
+
   @override
   void initState() {
     super.initState();
     tabController = TabController(length: 2, vsync: this);
     controller.getItems();
+    react = reaction(
+      (_) => controller.showSilentError,
+      (showError) {
+        if (showError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Ocorreu um erro ao buscar a próxima página")),
+          );
+        }
+      },
+    );
     scrollController.addListener(listener);
   }
 
   void listener() {
     if (scrollController.hasClients &&
-        scrollController.position.pixels == scrollController.position.maxScrollExtent) {
-      controller.getNextPage();
+        scrollController.offset >= scrollController.position.maxScrollExtent &&
+        !scrollController.position.outOfRange) {
+      controller.getItems();
     }
   }
 
@@ -120,6 +134,8 @@ class _ListingPageState extends State<ListingPage> with SingleTickerProviderStat
                 return const Center(child: CircularProgressIndicator());
               } else if (controller.noResultsFound) {
                 return const Center(child: Text("No results found"));
+              } else if (controller.showScreamingError) {
+                return Center(child: Text(controller.error ?? ""));
               } else if (items.isNotEmpty) {
                 return ListView.separated(
                   controller: scrollController,
@@ -164,5 +180,13 @@ class _ListingPageState extends State<ListingPage> with SingleTickerProviderStat
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    react();
+    scrollController.dispose();
+    tabController.dispose();
+    super.dispose();
   }
 }
