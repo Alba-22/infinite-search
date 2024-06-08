@@ -33,8 +33,8 @@ class CustomTabBar extends StatelessWidget {
         fontSize: 16,
       ),
       tabs: const [
-        Tab(text: "Relevantes"),
-        Tab(text: "Recentes"),
+        Tab(text: "Relevants"),
+        Tab(text: "Recents"),
       ],
     );
   }

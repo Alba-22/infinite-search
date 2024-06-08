@@ -30,7 +30,7 @@ class CustomTextField extends StatelessWidget {
         border: _border,
         enabledBorder: _border,
         focusedBorder: _border,
-        hintText: "Pesquise pelo título do post",
+        hintText: "Search by the post's title",
         hintStyle: const TextStyle(
           fontSize: 14,
           color: CColors.iconColor,

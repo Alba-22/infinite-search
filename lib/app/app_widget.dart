@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:infinite_search/app/pages/listing_page.dart';
+import 'package:infinite_search/app/pages/selection/selection_page.dart';
 import 'package:infinite_search/app/utils/constants.dart';
 
 class AppWidget extends StatelessWidget {
@@ -12,12 +12,20 @@ class AppWidget extends StatelessWidget {
       title: "Infinite Search",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: CColors.textColor),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: CColors.textColor,
+        ).copyWith(
+          primary: CColors.textColor,
+        ),
         scaffoldBackgroundColor: Colors.white,
+        appBarTheme: const AppBarTheme(
+          foregroundColor: Colors.white,
+          backgroundColor: CColors.textColor,
+        ),
         useMaterial3: true,
         textTheme: GoogleFonts.albertSansTextTheme(),
       ),
-      home: const ListingPage(),
+      home: const SelectionPage(),
     );
   }
 }

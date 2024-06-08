@@ -3,15 +3,15 @@ import 'package:infinite_search/app/models/request_payload.dart';
 import 'package:infinite_search/app/repositories/list_repository.dart';
 import 'package:mobx/mobx.dart';
 
-import '../models/query_model.dart';
-import 'pagination_controller.dart';
+import '../../controllers/pagination_controller.dart';
+import '../../models/query_model.dart';
 
-part 'improved_controller.g.dart';
+part 'complex_controller.g.dart';
 
-class ImprovedControllerStore = ImprovedControllerStoreBase with _$ImprovedControllerStore;
+class ComplexController = ComplexControllerBase with _$ComplexController;
 
-abstract class ImprovedControllerStoreBase extends PaginationController<PostModel> with Store {
-  ImprovedControllerStoreBase() : super(pageSize: 10);
+abstract class ComplexControllerBase extends PaginationController<PostModel> with Store {
+  ComplexControllerBase() : super(pageSize: 10);
 
   @readonly
   QueryModel _query = QueryModel.empty();

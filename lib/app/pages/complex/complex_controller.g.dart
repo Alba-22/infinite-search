@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'improved_controller.dart';
+part of 'complex_controller.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,9 +8,9 @@ part of 'improved_controller.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
-mixin _$ImprovedControllerStore on ImprovedControllerStoreBase, Store {
+mixin _$ComplexController on ComplexControllerBase, Store {
   late final _$_queryAtom =
-      Atom(name: 'ImprovedControllerStoreBase._query', context: context);
+      Atom(name: 'ComplexControllerBase._query', context: context);
 
   QueryModel get query {
     _$_queryAtom.reportRead();
@@ -27,39 +27,39 @@ mixin _$ImprovedControllerStore on ImprovedControllerStoreBase, Store {
     });
   }
 
-  late final _$ImprovedControllerStoreBaseActionController =
-      ActionController(name: 'ImprovedControllerStoreBase', context: context);
+  late final _$ComplexControllerBaseActionController =
+      ActionController(name: 'ComplexControllerBase', context: context);
 
   @override
   void setSearchText(String text) {
-    final _$actionInfo = _$ImprovedControllerStoreBaseActionController
-        .startAction(name: 'ImprovedControllerStoreBase.setSearchText');
+    final _$actionInfo = _$ComplexControllerBaseActionController.startAction(
+        name: 'ComplexControllerBase.setSearchText');
     try {
       return super.setSearchText(text);
     } finally {
-      _$ImprovedControllerStoreBaseActionController.endAction(_$actionInfo);
+      _$ComplexControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   void setTags(List<Tag> tags) {
-    final _$actionInfo = _$ImprovedControllerStoreBaseActionController
-        .startAction(name: 'ImprovedControllerStoreBase.setTags');
+    final _$actionInfo = _$ComplexControllerBaseActionController.startAction(
+        name: 'ComplexControllerBase.setTags');
     try {
       return super.setTags(tags);
     } finally {
-      _$ImprovedControllerStoreBaseActionController.endAction(_$actionInfo);
+      _$ComplexControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   void setStatus(StatusEnum status) {
-    final _$actionInfo = _$ImprovedControllerStoreBaseActionController
-        .startAction(name: 'ImprovedControllerStoreBase.setStatus');
+    final _$actionInfo = _$ComplexControllerBaseActionController.startAction(
+        name: 'ComplexControllerBase.setStatus');
     try {
       return super.setStatus(status);
     } finally {
-      _$ImprovedControllerStoreBaseActionController.endAction(_$actionInfo);
+      _$ComplexControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 

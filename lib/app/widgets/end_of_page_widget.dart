@@ -15,7 +15,7 @@ class EndOfPageWidget extends StatelessWidget {
         ),
         SizedBox(height: Layout.gapBig),
         Text(
-          "Fim dos resultados",
+          "End of results :/",
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,

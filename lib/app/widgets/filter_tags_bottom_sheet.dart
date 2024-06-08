@@ -59,7 +59,7 @@ class _FilterTagsBottomSheetState extends State<FilterTagsBottomSheet> {
         mainAxisSize: MainAxisSize.min,
         children: [
           const Text(
-            "Selecione por quais categorias deseja filtrar",
+            "Select witch categories do you want to filter",
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -92,7 +92,7 @@ class _FilterTagsBottomSheetState extends State<FilterTagsBottomSheet> {
           ),
           const SizedBox(height: Layout.gapBig),
           CustomButton(
-            label: "Filtrar",
+            label: "Filter",
             onTap: () {
               widget.onSelectTags(selectedTags);
             },

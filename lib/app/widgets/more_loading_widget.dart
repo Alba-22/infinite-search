@@ -15,7 +15,7 @@ class MoreLoadingWidget extends StatelessWidget {
         ),
         SizedBox(width: Layout.gapBig),
         Text(
-          "Buscando novas publicações...",
+          "Searching new posts...",
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,

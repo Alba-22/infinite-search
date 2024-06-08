@@ -102,7 +102,7 @@ class PostCard extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Text(
-                                DateFormat("dd/MM/yyyy").format(post.date),
+                                DateFormat("MM/dd/yyyy").format(post.date),
                                 style: const TextStyle(
                                   fontSize: 14,
                                   color: CColors.textColor,

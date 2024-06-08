@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:infinite_search/app/controllers/improved_controller.dart';
 import 'package:infinite_search/app/models/post_model.dart';
+import 'package:infinite_search/app/pages/complex/complex_controller.dart';
 import 'package:infinite_search/app/utils/constants.dart';
 import 'package:infinite_search/app/utils/debouncer.dart';
 import 'package:infinite_search/app/widgets/custom_tab_bar.dart';
@@ -12,17 +12,17 @@ import 'package:infinite_search/app/widgets/filter_tags_bottom_sheet.dart';
 import 'package:infinite_search/app/widgets/post_card.dart';
 import 'package:mobx/mobx.dart';
 
-import '../widgets/more_loading_widget.dart';
+import '../../widgets/more_loading_widget.dart';
 
-class ListingPage extends StatefulWidget {
-  const ListingPage({super.key});
+class ComplexPage extends StatefulWidget {
+  const ComplexPage({super.key});
 
   @override
-  State<ListingPage> createState() => _ListingPageState();
+  State<ComplexPage> createState() => _ComplexPageState();
 }
 
-class _ListingPageState extends State<ListingPage> with SingleTickerProviderStateMixin {
-  final controller = ImprovedControllerStore();
+class _ComplexPageState extends State<ComplexPage> with SingleTickerProviderStateMixin {
+  final controller = ComplexController();
 
   late TabController tabController;
   final searchController = TextEditingController();
@@ -41,7 +41,7 @@ class _ListingPageState extends State<ListingPage> with SingleTickerProviderStat
       (showError) {
         if (showError) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Ocorreu um erro ao buscar a próxima página")),
+            const SnackBar(content: Text("An error occurred while searching for the next page")),
           );
         }
       },
@@ -52,9 +52,8 @@ class _ListingPageState extends State<ListingPage> with SingleTickerProviderStat
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black87,
         title: const Text(
-          "Publicações",
+          "Posts",
           style: TextStyle(
             fontSize: 20,
             color: Colors.white,
