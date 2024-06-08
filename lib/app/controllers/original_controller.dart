@@ -3,18 +3,18 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:infinite_search/app/models/post_model.dart';
-import 'package:infinite_search/app/models/query_model.dart';
+import 'package:infinite_search/app/models/request_payload.dart';
 import 'package:infinite_search/app/repositories/list_repository.dart';
 import 'package:mobx/mobx.dart';
 
-part 'listing_controller.g.dart';
+part 'original_controller.g.dart';
 
-class ListingController = ListingControllerBase with _$ListingController;
+class OriginalController = OriginalControllerBase with _$OriginalController;
 
-abstract class ListingControllerBase with Store {
+abstract class OriginalControllerBase with Store {
   final ListRepository _repository;
 
-  ListingControllerBase(this._repository) {
+  OriginalControllerBase(this._repository) {
     autorun((_) {
       log(_searchQuery.toString());
     });
@@ -23,10 +23,10 @@ abstract class ListingControllerBase with Store {
   static const int _pageSize = 10;
 
   @readonly
-  QueryModel _searchQuery = const QueryModel(
+  RequestPayload _searchQuery = const RequestPayload(
     page: 1,
     pageSize: _pageSize,
-    searchQuery: "",
+    text: "",
     status: StatusEnum.relevant,
     tags: [],
   );
@@ -54,7 +54,7 @@ abstract class ListingControllerBase with Store {
   bool get isInInfiniteLoading => !_isInFirstPage && _isLoading;
 
   @computed
-  bool get isFilterEmpty => _searchQuery.searchQuery.isEmpty && _searchQuery.tags.isEmpty;
+  bool get isFilterEmpty => _searchQuery.text.isEmpty && _searchQuery.tags.isEmpty;
 
   @computed
   bool get noResultsFound => !isFilterEmpty && _items.isEmpty;
@@ -68,7 +68,7 @@ abstract class ListingControllerBase with Store {
   @action
   void setSearchQuery(String text) {
     _searchQuery = _searchQuery.copyWith(
-      searchQuery: text,
+      text: text,
       tags: _searchQuery.tags,
     );
     reset();
@@ -78,7 +78,7 @@ abstract class ListingControllerBase with Store {
   @action
   void setTags(List<Tag> tags) {
     _searchQuery = _searchQuery.copyWith(
-      searchQuery: _searchQuery.searchQuery,
+      text: _searchQuery.text,
       tags: tags,
     );
     reset();
@@ -89,7 +89,7 @@ abstract class ListingControllerBase with Store {
   void switchStatus(StatusEnum status) {
     _searchQuery = _searchQuery.copyWith(
       status: status,
-      searchQuery: "",
+      text: "",
       tags: [],
     );
     reset();
@@ -148,28 +148,43 @@ abstract class ListingControllerBase with Store {
   }
 }
 
-class PageModel {
-  int page = 1;
-  late int _pageSize;
+// sealed class ListingState<T> extends Equatable {
+//   @override
+//   List<Object> get props => [];
+// }
 
-  PageModel(int pageSize) {
-    _pageSize = pageSize;
-  }
+// final class ListingInitialState extends ListingState {}
 
-  void increasePage() {
-    page++;
-  }
+// final class ListingLoadingState extends ListingState {}
 
-  void resetPagination() {
-    page = 1;
-  }
+// final class ListingNoResultsState extends ListingState {}
 
-  int get pageSize => _pageSize;
-}
+// final class ListingEmptyState extends ListingState {}
+
+// final class ListingSuccessState<T, E> extends ListingState {
+//   final List<T> items;
+//   final bool isLoadingMore;
+//   final E? errorWhileGettingMore;
+//   final bool hasReachedEnd;
+
+//   ListingSuccessState({
+//     required this.items,
+//     required this.isLoadingMore,
+//     required this.errorWhileGettingMore,
+//     required this.hasReachedEnd,
+//   });
+// }
+
+// final class ListingErrorState<E> extends ListingState {
+//   final E error;
+//   ListingErrorState(this.error);
+// }
+
+
 
 /// States
 /// Empty
 /// Loading
-/// Success-> items, moreLoading, errorOnGettingMore
+/// Success-> items, moreLoading, errorOnGettingMore, hasReachedEnd
 /// NoResults
 /// Error

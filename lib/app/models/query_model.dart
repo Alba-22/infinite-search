@@ -1,38 +1,33 @@
-import 'package:equatable/equatable.dart';
-import 'package:infinite_search/app/models/post_model.dart';
+import 'post_model.dart';
 
-class QueryModel extends Equatable {
-  final int page;
-  final int pageSize;
-  final String searchQuery;
+final class QueryModel {
+  final String text;
   final StatusEnum status;
   final List<Tag> tags;
 
-  const QueryModel({
-    required this.page,
-    required this.pageSize,
-    required this.searchQuery,
+  QueryModel({
+    required this.text,
     required this.status,
     required this.tags,
   });
 
-  @override
-  List<Object> get props => [page, pageSize, searchQuery, status, tags];
+  factory QueryModel.empty() {
+    return QueryModel(
+      text: "",
+      status: StatusEnum.relevant,
+      tags: [],
+    );
+  }
 
-  @override
-  bool get stringify => true;
+  bool get isFilterEmpty => text.isEmpty && tags.isEmpty;
 
   QueryModel copyWith({
-    int? page,
-    int? pageSize,
-    String? searchQuery,
+    String? text,
     StatusEnum? status,
     List<Tag>? tags,
   }) {
     return QueryModel(
-      page: page ?? this.page,
-      pageSize: pageSize ?? this.pageSize,
-      searchQuery: searchQuery ?? this.searchQuery,
+      text: text ?? this.text,
       status: status ?? this.status,
       tags: tags ?? this.tags,
     );

@@ -1,25 +1,26 @@
 import 'dart:developer';
 
 import 'package:infinite_search/app/models/post_model.dart';
-import 'package:infinite_search/app/models/query_model.dart';
+import 'package:infinite_search/app/models/request_payload.dart';
 import 'package:infinite_search/app/repositories/data.dart';
 
 abstract interface class ListRepository {
-  Future<List<PostModel>> getItems(QueryModel query);
+  Future<List<PostModel>> getItems(RequestPayload query);
 }
 
 class ListRepositoryImpl implements ListRepository {
   @override
-  Future<List<PostModel>> getItems(QueryModel query) async {
+  Future<List<PostModel>> getItems(RequestPayload query) async {
+    log(query.toString());
     log("Getting items");
     // throw Exception();
     await Future.delayed(const Duration(seconds: 2));
     final firstItemIndex = (query.pageSize * query.page) - query.pageSize;
     List<PostModel> search = posts;
-    if (query.searchQuery.isNotEmpty) {
+    if (query.text.isNotEmpty) {
       search = search
           .where(
-            (element) => element.title.toLowerCase().contains(query.searchQuery.toLowerCase()),
+            (element) => element.title.toLowerCase().contains(query.text.toLowerCase()),
           )
           .toList();
     }

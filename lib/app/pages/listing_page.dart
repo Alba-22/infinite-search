@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:infinite_search/app/controllers/listing_controller.dart';
+import 'package:infinite_search/app/controllers/improved_controller.dart';
 import 'package:infinite_search/app/models/post_model.dart';
-import 'package:infinite_search/app/repositories/list_repository.dart';
 import 'package:infinite_search/app/utils/constants.dart';
 import 'package:infinite_search/app/utils/debouncer.dart';
 import 'package:infinite_search/app/widgets/custom_tab_bar.dart';
@@ -23,10 +22,7 @@ class ListingPage extends StatefulWidget {
 }
 
 class _ListingPageState extends State<ListingPage> with SingleTickerProviderStateMixin {
-  // TODO: Move to controller
-  final scrollController = ScrollController();
-
-  final controller = ListingController(ListRepositoryImpl());
+  final controller = ImprovedControllerStore();
 
   late TabController tabController;
   final searchController = TextEditingController();
@@ -50,15 +46,6 @@ class _ListingPageState extends State<ListingPage> with SingleTickerProviderStat
         }
       },
     );
-    scrollController.addListener(listener);
-  }
-
-  void listener() {
-    if (scrollController.hasClients &&
-        scrollController.offset >= scrollController.position.maxScrollExtent &&
-        !scrollController.position.outOfRange) {
-      controller.getItems();
-    }
   }
 
   @override
@@ -86,26 +73,24 @@ class _ListingPageState extends State<ListingPage> with SingleTickerProviderStat
                     controller: searchController,
                     onChanged: (value) {
                       debouncer.run(() {
-                        controller.setSearchQuery(value);
+                        controller.setSearchText(value);
                       });
                     },
                   ),
                 ),
                 const SizedBox(width: Layout.gapSmall),
-                Observer(builder: (context) {
-                  return FilterButton(
-                    onTap: () {
-                      showFilterTagsBottomSheet(
-                        context,
-                        initiallySelected: controller.searchQuery.tags,
-                        onSelectTags: (tags) {
-                          controller.setTags(tags);
-                          Navigator.pop(context);
-                        },
-                      );
-                    },
-                  );
-                }),
+                FilterButton(
+                  onTap: () {
+                    showFilterTagsBottomSheet(
+                      context,
+                      initiallySelected: controller.query.tags,
+                      onSelectTags: (tags) {
+                        controller.setTags(tags);
+                        Navigator.pop(context);
+                      },
+                    );
+                  },
+                ),
               ],
             ),
           ),
@@ -114,9 +99,9 @@ class _ListingPageState extends State<ListingPage> with SingleTickerProviderStat
             controller: tabController,
             onTap: (value) {
               if (value == 0) {
-                controller.switchStatus(StatusEnum.relevant);
+                controller.setStatus(StatusEnum.relevant);
               } else if (value == 1) {
-                controller.switchStatus(StatusEnum.recent);
+                controller.setStatus(StatusEnum.recent);
               }
               searchController.clear();
             },
@@ -134,7 +119,7 @@ class _ListingPageState extends State<ListingPage> with SingleTickerProviderStat
                 return Center(child: Text(controller.error ?? ""));
               } else if (items.isNotEmpty) {
                 return ListView.separated(
-                  controller: scrollController,
+                  controller: controller.scrollController,
                   itemCount: items.length,
                   padding: EdgeInsets.only(
                     top: Layout.gapBig,
@@ -181,7 +166,7 @@ class _ListingPageState extends State<ListingPage> with SingleTickerProviderStat
   @override
   void dispose() {
     react();
-    scrollController.dispose();
+    controller.dispose();
     tabController.dispose();
     super.dispose();
   }
