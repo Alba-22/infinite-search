@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:infinite_search/app/models/post_model.dart';
 import 'package:infinite_search/app/pages/simple/simple_store.dart';
 import 'package:infinite_search/app/utils/constants.dart';
 import 'package:infinite_search/app/utils/debouncer.dart';
 import 'package:infinite_search/app/widgets/end_of_page_widget.dart';
 import 'package:infinite_search/app/widgets/post_card.dart';
-import 'package:infinite_search/core/mobx/mobx_infinite_widget.dart';
+import 'package:infinite_search/core/notifier/notifier_infinite_widget.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../widgets/more_loading_widget.dart';
@@ -86,26 +85,24 @@ class _SimplePageState extends State<SimplePage> with SingleTickerProviderStateM
                   ),
                   itemBuilder: (context, index) {
                     final item = items[index];
-                    return Observer(builder: (context) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          PostCard(post: item),
-                          if (index == items.length - 1 && store.isInInfiniteLoading) ...[
-                            Container(
-                              padding: const EdgeInsets.symmetric(vertical: Layout.gapMedium),
-                              child: const MoreLoadingWidget(),
-                            )
-                          ],
-                          if (index == items.length - 1 && store.hasReachedEnd) ...[
-                            Container(
-                              padding: const EdgeInsets.symmetric(vertical: Layout.gapMedium),
-                              child: const EndOfPageWidget(),
-                            ),
-                          ]
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        PostCard(post: item),
+                        if (index == items.length - 1 && store.isInInfiniteLoading) ...[
+                          Container(
+                            padding: const EdgeInsets.symmetric(vertical: Layout.gapMedium),
+                            child: const MoreLoadingWidget(),
+                          )
                         ],
-                      );
-                    });
+                        if (index == items.length - 1 && store.hasReachedEnd) ...[
+                          Container(
+                            padding: const EdgeInsets.symmetric(vertical: Layout.gapMedium),
+                            child: const EndOfPageWidget(),
+                          ),
+                        ]
+                      ],
+                    );
                   },
                   separatorBuilder: (context, index) {
                     return const SizedBox(height: Layout.gapMedium);
