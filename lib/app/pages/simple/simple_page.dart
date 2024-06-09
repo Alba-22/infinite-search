@@ -6,7 +6,6 @@ import 'package:infinite_search/app/utils/debouncer.dart';
 import 'package:infinite_search/app/widgets/end_of_page_widget.dart';
 import 'package:infinite_search/app/widgets/post_card.dart';
 import 'package:infinite_search/core/notifier/notifier_infinite_widget.dart';
-import 'package:mobx/mobx.dart';
 
 import '../../widgets/more_loading_widget.dart';
 
@@ -25,23 +24,20 @@ class _SimplePageState extends State<SimplePage> with SingleTickerProviderStateM
 
   final debouncer = Debouncer(duration: const Duration(milliseconds: 500));
 
-  late ReactionDisposer react;
-
   @override
   void initState() {
     super.initState();
     tabController = TabController(length: 2, vsync: this);
     store.getItems();
-    react = reaction(
-      (_) => store.showSilentError,
-      (showError) {
-        if (showError) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("An error occurred while searching for the next page")),
-          );
-        }
-      },
-    );
+    store.addListener(listener);
+  }
+
+  void listener() {
+    if (store.showSilentError) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("An error occurred while searching for the next page")),
+      );
+    }
   }
 
   @override
@@ -118,8 +114,8 @@ class _SimplePageState extends State<SimplePage> with SingleTickerProviderStateM
 
   @override
   void dispose() {
-    react();
     store.dispose();
+    store.removeListener(listener);
     tabController.dispose();
     super.dispose();
   }
