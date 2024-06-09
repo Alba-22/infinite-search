@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:infinite_search/app/pages/simple/simple_controller.dart';
+import 'package:infinite_search/app/models/post_model.dart';
+import 'package:infinite_search/app/pages/simple/simple_store.dart';
 import 'package:infinite_search/app/utils/constants.dart';
 import 'package:infinite_search/app/utils/debouncer.dart';
 import 'package:infinite_search/app/widgets/end_of_page_widget.dart';
 import 'package:infinite_search/app/widgets/post_card.dart';
+import 'package:infinite_search/core/mobx/mobx_infinite_widget.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../widgets/more_loading_widget.dart';
@@ -17,7 +19,7 @@ class SimplePage extends StatefulWidget {
 }
 
 class _SimplePageState extends State<SimplePage> with SingleTickerProviderStateMixin {
-  final controller = SimpleController();
+  final store = SimpleStore();
 
   late TabController tabController;
   final searchController = TextEditingController();
@@ -30,9 +32,9 @@ class _SimplePageState extends State<SimplePage> with SingleTickerProviderStateM
   void initState() {
     super.initState();
     tabController = TabController(length: 2, vsync: this);
-    controller.getItems();
+    store.getItems();
     react = reaction(
-      (_) => controller.showSilentError,
+      (_) => store.showSilentError,
       (showError) {
         if (showError) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -58,19 +60,23 @@ class _SimplePageState extends State<SimplePage> with SingleTickerProviderStateM
       body: Column(
         children: [
           Expanded(
-            child: Observer(builder: (context) {
-              final items = controller.items;
-              if (controller.isEmpty) {
+            child: InfiniteWidget<PostModel>(
+              store: store,
+              onEmptyState: () {
                 return const Center(child: Text("Empty"));
-              } else if (controller.isInitialLoading) {
+              },
+              onInitialLoadingState: () {
                 return const Center(child: CircularProgressIndicator());
-              } else if (controller.noResultsFound) {
+              },
+              onNoResultsState: () {
                 return const Center(child: Text("No results found"));
-              } else if (controller.showScreamingError) {
-                return Center(child: Text(controller.error ?? ""));
-              } else if (items.isNotEmpty) {
+              },
+              onScreamingErrorState: (String error) {
+                return Center(child: Text(error));
+              },
+              onSuccessState: (List<PostModel> items) {
                 return ListView.separated(
-                  controller: controller.scrollController,
+                  controller: store.scrollController,
                   itemCount: items.length,
                   padding: EdgeInsets.only(
                     top: Layout.gapBig,
@@ -85,13 +91,13 @@ class _SimplePageState extends State<SimplePage> with SingleTickerProviderStateM
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           PostCard(post: item),
-                          if (index == items.length - 1 && controller.isInInfiniteLoading) ...[
+                          if (index == items.length - 1 && store.isInInfiniteLoading) ...[
                             Container(
                               padding: const EdgeInsets.symmetric(vertical: Layout.gapMedium),
                               child: const MoreLoadingWidget(),
                             )
                           ],
-                          if (index == items.length - 1 && controller.hasReachedEnd) ...[
+                          if (index == items.length - 1 && store.hasReachedEnd) ...[
                             Container(
                               padding: const EdgeInsets.symmetric(vertical: Layout.gapMedium),
                               child: const EndOfPageWidget(),
@@ -105,9 +111,8 @@ class _SimplePageState extends State<SimplePage> with SingleTickerProviderStateM
                     return const SizedBox(height: Layout.gapMedium);
                   },
                 );
-              }
-              return const SizedBox();
-            }),
+              },
+            ),
           ),
         ],
       ),
@@ -117,7 +122,7 @@ class _SimplePageState extends State<SimplePage> with SingleTickerProviderStateM
   @override
   void dispose() {
     react();
-    controller.dispose();
+    store.dispose();
     tabController.dispose();
     super.dispose();
   }

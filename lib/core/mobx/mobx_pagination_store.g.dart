@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'pagination_controller.dart';
+part of 'mobx_pagination_store.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,58 +8,58 @@ part of 'pagination_controller.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
-mixin _$PaginationController<T> on PaginationControllerBase<T>, Store {
+mixin _$PaginationStore<T> on PaginationStoreBase<T>, Store {
   Computed<bool>? _$isEmptyComputed;
 
   @override
   bool get isEmpty => (_$isEmptyComputed ??= Computed<bool>(() => super.isEmpty,
-          name: 'PaginationControllerBase.isEmpty'))
+          name: 'PaginationStoreBase.isEmpty'))
       .value;
   Computed<bool>? _$isInitialLoadingComputed;
 
   @override
   bool get isInitialLoading => (_$isInitialLoadingComputed ??= Computed<bool>(
           () => super.isInitialLoading,
-          name: 'PaginationControllerBase.isInitialLoading'))
+          name: 'PaginationStoreBase.isInitialLoading'))
       .value;
   Computed<bool>? _$_isInFirstPageComputed;
 
   @override
   bool get _isInFirstPage =>
       (_$_isInFirstPageComputed ??= Computed<bool>(() => super._isInFirstPage,
-              name: 'PaginationControllerBase._isInFirstPage'))
+              name: 'PaginationStoreBase._isInFirstPage'))
           .value;
   Computed<bool>? _$isInInfiniteLoadingComputed;
 
   @override
   bool get isInInfiniteLoading => (_$isInInfiniteLoadingComputed ??=
           Computed<bool>(() => super.isInInfiniteLoading,
-              name: 'PaginationControllerBase.isInInfiniteLoading'))
+              name: 'PaginationStoreBase.isInInfiniteLoading'))
       .value;
   Computed<bool>? _$noResultsFoundComputed;
 
   @override
   bool get noResultsFound =>
       (_$noResultsFoundComputed ??= Computed<bool>(() => super.noResultsFound,
-              name: 'PaginationControllerBase.noResultsFound'))
+              name: 'PaginationStoreBase.noResultsFound'))
           .value;
   Computed<bool>? _$showScreamingErrorComputed;
 
   @override
   bool get showScreamingError => (_$showScreamingErrorComputed ??=
           Computed<bool>(() => super.showScreamingError,
-              name: 'PaginationControllerBase.showScreamingError'))
+              name: 'PaginationStoreBase.showScreamingError'))
       .value;
   Computed<bool>? _$showSilentErrorComputed;
 
   @override
   bool get showSilentError =>
       (_$showSilentErrorComputed ??= Computed<bool>(() => super.showSilentError,
-              name: 'PaginationControllerBase.showSilentError'))
+              name: 'PaginationStoreBase.showSilentError'))
           .value;
 
-  late final _$_scrollControllerAtom = Atom(
-      name: 'PaginationControllerBase._scrollController', context: context);
+  late final _$_scrollControllerAtom =
+      Atom(name: 'PaginationStoreBase._scrollController', context: context);
 
   ScrollController get scrollController {
     _$_scrollControllerAtom.reportRead();
@@ -77,7 +77,7 @@ mixin _$PaginationController<T> on PaginationControllerBase<T>, Store {
   }
 
   late final _$_pageAtom =
-      Atom(name: 'PaginationControllerBase._page', context: context);
+      Atom(name: 'PaginationStoreBase._page', context: context);
 
   _PageModel get page {
     _$_pageAtom.reportRead();
@@ -95,7 +95,7 @@ mixin _$PaginationController<T> on PaginationControllerBase<T>, Store {
   }
 
   late final _$_isLoadingAtom =
-      Atom(name: 'PaginationControllerBase._isLoading', context: context);
+      Atom(name: 'PaginationStoreBase._isLoading', context: context);
 
   bool get isLoading {
     _$_isLoadingAtom.reportRead();
@@ -113,7 +113,7 @@ mixin _$PaginationController<T> on PaginationControllerBase<T>, Store {
   }
 
   late final _$_itemsAtom =
-      Atom(name: 'PaginationControllerBase._items', context: context);
+      Atom(name: 'PaginationStoreBase._items', context: context);
 
   ObservableList<T> get items {
     _$_itemsAtom.reportRead();
@@ -131,7 +131,7 @@ mixin _$PaginationController<T> on PaginationControllerBase<T>, Store {
   }
 
   late final _$_errorAtom =
-      Atom(name: 'PaginationControllerBase._error', context: context);
+      Atom(name: 'PaginationStoreBase._error', context: context);
 
   String? get error {
     _$_errorAtom.reportRead();
@@ -149,7 +149,7 @@ mixin _$PaginationController<T> on PaginationControllerBase<T>, Store {
   }
 
   late final _$_hasReachedEndAtom =
-      Atom(name: 'PaginationControllerBase._hasReachedEnd', context: context);
+      Atom(name: 'PaginationStoreBase._hasReachedEnd', context: context);
 
   bool get hasReachedEnd {
     _$_hasReachedEndAtom.reportRead();
@@ -167,46 +167,46 @@ mixin _$PaginationController<T> on PaginationControllerBase<T>, Store {
   }
 
   late final _$getItemsAsyncAction =
-      AsyncAction('PaginationControllerBase.getItems', context: context);
+      AsyncAction('PaginationStoreBase.getItems', context: context);
 
   @override
   Future<void> getItems() {
     return _$getItemsAsyncAction.run(() => super.getItems());
   }
 
-  late final _$PaginationControllerBaseActionController =
-      ActionController(name: 'PaginationControllerBase', context: context);
+  late final _$PaginationStoreBaseActionController =
+      ActionController(name: 'PaginationStoreBase', context: context);
 
   @override
   void setPageSize(int newPageSize) {
-    final _$actionInfo = _$PaginationControllerBaseActionController.startAction(
-        name: 'PaginationControllerBase.setPageSize');
+    final _$actionInfo = _$PaginationStoreBaseActionController.startAction(
+        name: 'PaginationStoreBase.setPageSize');
     try {
       return super.setPageSize(newPageSize);
     } finally {
-      _$PaginationControllerBaseActionController.endAction(_$actionInfo);
+      _$PaginationStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   void reset() {
-    final _$actionInfo = _$PaginationControllerBaseActionController.startAction(
-        name: 'PaginationControllerBase.reset');
+    final _$actionInfo = _$PaginationStoreBaseActionController.startAction(
+        name: 'PaginationStoreBase.reset');
     try {
       return super.reset();
     } finally {
-      _$PaginationControllerBaseActionController.endAction(_$actionInfo);
+      _$PaginationStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   void _increasePage() {
-    final _$actionInfo = _$PaginationControllerBaseActionController.startAction(
-        name: 'PaginationControllerBase._increasePage');
+    final _$actionInfo = _$PaginationStoreBaseActionController.startAction(
+        name: 'PaginationStoreBase._increasePage');
     try {
       return super._increasePage();
     } finally {
-      _$PaginationControllerBaseActionController.endAction(_$actionInfo);
+      _$PaginationStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 

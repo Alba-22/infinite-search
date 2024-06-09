@@ -1,20 +1,22 @@
+// ignore_for_file: prefer_final_fields
+
 import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
-part 'pagination_controller.g.dart';
+part 'mobx_pagination_store.g.dart';
 
-abstract class PaginationController<T> = PaginationControllerBase with _$PaginationController;
+abstract class PaginationStore<T> = PaginationStoreBase<T> with _$PaginationStore;
 
-abstract class PaginationControllerBase<T> with Store {
+abstract class PaginationStoreBase<T> with Store {
   static const int _defaultPageSize = 10;
 
   @readonly
   ScrollController _scrollController = ScrollController();
 
-  PaginationControllerBase({int? pageSize}) {
+  PaginationStoreBase({int? pageSize}) {
     _page = _page.copyWith(
       pageSize: pageSize ?? _defaultPageSize,
     );
